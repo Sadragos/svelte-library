@@ -1,13 +1,9 @@
 import _ from "lodash";
 import type { MomentInput, unitOfTime } from "moment";
 import moment from "moment";
+import { t } from "svelte-i18n";
 import { get } from "svelte/store";
 
-export type TimeDiff = {
-    amount?: number;
-    date?: Date;
-    type: 'never' | 'just_now' | 'minutes_ago' | 'hours_ago' | 'days_ago' | 'exact_date';
-}
 export type TimeList<T = any> =  {date: Date, items: T[]}[];
 
 /**
@@ -15,19 +11,20 @@ export type TimeList<T = any> =  {date: Date, items: T[]}[];
  * @param timestamp 
  * @returns 
  */
-export const toTimeDiff = (timestamp: MomentInput): TimeDiff => {
-    if(!timestamp) return { type: 'never'}
+export const toTimeDiff = (timestamp: MomentInput): string => {
+    const $t = get(t);
+    if(!timestamp) return $t('never');
     const diff = moment().diff(timestamp, 'seconds');
     if (diff < 60) {
-        return { type: 'just_now' };
+        return $t('just_now');
     } else if (diff < 3600) {
-        return { type: 'minutes_ago', amount: Math.floor(diff / 60) };
+        return $t('minutes_ago', { values: {minutes: Math.floor(diff / 60) }});
     } else if (diff < 86400) {
-        return { type: 'hours_ago', amount: Math.floor(diff / 3600) };
+        return $t('hours_ago', { values: {hours: Math.floor(diff / 3600) }});
     } else if (diff < 86400 * 14) {
-        return { type: 'days_ago', amount: Math.floor(diff / 86400) };
+        return $t('days_ago', { values: {days: Math.floor(diff / 86400) }});
     } else {
-        return { type: 'exact_date', date: moment(timestamp).toDate() };
+        return $t('time_at', {values: {when: moment(timestamp).toDate().toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })}});
     }
 }
 
