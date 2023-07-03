@@ -14,6 +14,3 @@ export type Link = {
     hidden?: boolean;
     replaceState?: boolean;
 }
-
-export type InputOption<T = any> = { value: T; label?: string };
-export type InputValidator = (value: any) => boolean | string;
