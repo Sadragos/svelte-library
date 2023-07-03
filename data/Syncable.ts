@@ -1,7 +1,6 @@
 import moment from "moment";
 import _ from "lodash";
 import { clearForSync } from "./pocketUtils";
-import { db } from "$lib/data/db";
 import { type DbDefaults, DbStatus, type ImageField, MyDB } from "$lib/mylib/data/MyDB";
 import { clearForStorage } from "$lib/mylib/data/dbUtils";
 import type PocketBase from 'pocketbase';
@@ -38,9 +37,11 @@ export class Syncable<T extends DbDefaults> {
     public imageFields: string[];
     public batchSize: number;
 
-    constructor(protected pb: PocketBase,
+    constructor(
+        protected pb: PocketBase,
         protected db: MyDB,
-        config: SyncableConfig) {
+        config: SyncableConfig
+    ) {
         this.tableName = config.tableName;
         this.imageFields = config.imageFields || [];
         this.batchSize = config.batchSize || 100;
@@ -269,7 +270,7 @@ export class Syncable<T extends DbDefaults> {
      * @returns 
      */
     public async readLocal(id: string): Promise<T | undefined> {
-        return await db.table(this.tableName).where('id').equals(id).first();
+        return await this.db.table(this.tableName).where('id').equals(id).first();
     }
 
     /**
@@ -278,8 +279,9 @@ export class Syncable<T extends DbDefaults> {
      * @returns 
      * @see updateLocal
      */
-    public async createLocal(entity: T): Promise<T> {
-        return this.updateLocal(entity);
+    public async createLocal(entity: T, doModify = false): Promise<T> {
+        const insert = doModify ? this.db.modify(entity, DbStatus.CREATED) : entity;
+        return this.updateLocal(insert, false);
     }
 
     /**
@@ -287,9 +289,10 @@ export class Syncable<T extends DbDefaults> {
      * @param entity 
      * @returns 
      */
-    public async updateLocal(entity: T): Promise<T> {
-        const key = await db.table(this.tableName).put(this.clearStorageData(entity));
-        return await db.table(this.tableName).get(key) as T;
+    public async updateLocal(entity: T, doModify = false): Promise<T> {
+        const insert = doModify ? this.db.modify(entity, DbStatus.UPDATED) : entity;
+        const key = await this.db.table(this.tableName).put(this.clearStorageData(insert));
+        return await this.db.table(this.tableName).get(key) as T;
     }
 
     /**
@@ -297,8 +300,38 @@ export class Syncable<T extends DbDefaults> {
      * @param entity
      * @returns
      */
-    public async deleteLocal(entity: T): Promise<void> {
+    public async deleteLocal(entity: T, softDelete = false): Promise<T | undefined> {
         if (!entity._id) return;
-        await db.table(this.tableName).delete(entity._id);
+        if(softDelete) {
+            const insert = this.db.modify(entity, DbStatus.DELETED);
+            return await this.updateLocal(insert, false);
+        } else {
+            await this.db.table(this.tableName).delete(entity._id);
+        }
+    }
+
+    /**
+     * Fügt einen Datensatz z.B. vom Server in die lokale Datenbank ein oder aktualisiert ihn
+     * @param data 
+     * @returns 
+     */
+    public async updateLocalFromData(data: T): Promise<T> {
+        if(data._id) {
+            const local = await this.readLocal(data.id || '');
+            if(local) {
+                return this.updateLocalAfterSync(local, data);
+            }
+        }
+        return await this.createLocal(data, false);
+    }
+
+    /**
+     * Fügt mehrere Datensätze z.B. vom Server in die lokale Datenbank ein oder aktualisiert sie
+     * @param data 
+     * @returns 
+     * @see updateLocalFromData
+     */
+    public async updateLocalFromDataArray(data: T[]): Promise<T[]> {
+        return await Promise.all(data.map(async item => await this.updateLocalFromData(item)));
     }
 }
