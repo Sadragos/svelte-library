@@ -1,0 +1,85 @@
+.rotating {
+    animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+.flashing {
+    animation: flash 3s infinite;
+}
+
+@keyframes flash {
+    0% {
+        transform: scale(3.5);
+        opacity: 0;
+        filter: blur(3px);
+    }
+
+    33% {
+        transform: scale(1);
+        opacity: 1;
+        filter: unset;
+    }
+
+    66% {
+        transform: scale(1);
+        opacity: 1;
+        filter: unset;
+    }
+
+    100% {
+        transform: scale(0.5);
+        opacity: 0.2;
+        filter: blur(2px);
+    }
+}
+
+.shaking {
+    animation: shake 0.25s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10%);
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    75% {
+        transform: translateX(10%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.pulsating {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}

@@ -6,4 +6,4 @@ Dafür muss das repository wie folgt eingebunden werden:
 * `git init` in dem Ordner ausführen
 * `git update` in dem Ordner ausführen
 
-Zum aktualisieren des submodule muss dann `git submodule update --remote` ausgeführt werden.
+Gab es Änderungen auf der remote Seite des modules kann  `git submodule update --remote` ausgeführt werden um es zu aktualisieren.
