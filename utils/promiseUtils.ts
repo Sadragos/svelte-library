@@ -12,7 +12,7 @@ export const asyncTimeout = <T = any>(ms: number = 5000) => new Promise<T>((reso
  * @param defaultValue
  * @returns 
  */
-export const timeoutResult = async <T = any>(promise: Promise<T>, ms: number = 5000, defaultValue: T = undefined): Promise<T | undefined> => {
+export const timeoutResult = async <T = any>(promise: Promise<T>, ms: number = 5000, defaultValue: T | undefined = undefined): Promise<T | undefined> => {
     try {
         return await Promise.race<T>([promise, asyncTimeout<T>(ms)]);
     } catch (error) {

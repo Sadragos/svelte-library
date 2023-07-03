@@ -1,6 +1,6 @@
 <script lang="ts">
-	import NavButton from '$lib/components/navButton.svelte';
 	import type { Link } from '$lib/mylib/types';
+	import NavButton from '../navigation/navButton.svelte';
 
 	export let buttons: Link[] = [];
 	export let animated = true;
