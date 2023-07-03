@@ -10,8 +10,14 @@ export const getLocalStorage = <T = any>(key: string): T | undefined => {
     if (typeof window === 'undefined') return undefined;
     const value = localStorage.getItem(key);
     if (value) {
-        return JSON.parse(value) as T;
+        try {
+            return JSON.parse(value) as T;
+        } catch (e) {
+            console.error('Could not parse', value);
+            console.error(e);
+        }
     }
+
     return undefined;
 }
 
@@ -22,14 +28,19 @@ export const getLocalStorage = <T = any>(key: string): T | undefined => {
  * @param writeDefault
  * @returns 
  */
-export const getLocalStorageDefault = <T = any>(key: string, defaultValue: T , writeDefault = true): T => {
+export const getLocalStorageDefault = <T = any>(key: string, defaultValue: T, writeDefault = true): T => {
     if (typeof window === 'undefined') return defaultValue;
     const value = localStorage.getItem(key);
     if (value) {
-        return JSON.parse(value) as T;
+        try {
+            return JSON.parse(value) as T;
+        } catch (e) {
+            console.error('Could not parse', value);
+            console.error(e);
+        }
     }
-    
-    if(defaultValue && writeDefault) setLocalStorage(key, defaultValue);
+
+    if (defaultValue && writeDefault) setLocalStorage(key, defaultValue);
 
     return defaultValue;
 }
