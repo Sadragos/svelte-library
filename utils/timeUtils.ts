@@ -1,3 +1,4 @@
+import { PUBLIC_BUILD_TIME } from "$env/static/public";
 import _ from "lodash";
 import type { MomentInput, unitOfTime } from "moment";
 import moment from "moment";
@@ -51,4 +52,25 @@ export const splitByTime = <T>(list: T[], timeField: string, granularity: unitOf
         result[result.length - 1].items.push(item);
     }
     return result;
+}
+
+export const buildTimeToLocalTime = () => {
+    let date = PUBLIC_BUILD_TIME;
+    if(!date) return '-';
+    if(typeof date === 'string') date = date.replace('_', ' ');
+    const mom = moment(date);
+    if(!mom.isValid()) return date;
+    return mom.utc(true).toDate().toLocaleDateString(undefined, { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+export const utc2Local = (date: Date | string | number): Date => {
+    const mom = moment(date);
+    if(!mom.isValid()) return date as Date;
+    return mom.utc(true).toDate();
+}
+
+export const local2Utc = (date: Date | string | number): Date => {
+    const mom = moment(date);
+    if(!mom.isValid()) return date as Date;
+    return mom.utc(false).toDate();
 }
