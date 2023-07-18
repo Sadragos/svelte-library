@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { BaseSystemFields } from '$lib/pocketbase/generated-types';
-	import { compressAndResizeImage } from '$lib/utils/imageUtils';
 	import { pb } from '$lib/stores/pb.store';
 	import type { FileInputValue } from '$lib/types';
 	import _ from 'lodash';
@@ -8,6 +7,7 @@
 	import { t } from 'svelte-i18n';
 	import { fade } from 'svelte/transition';
 	import Loader from '../../../components/loader.svelte';
+	import { compressAndResizeImage } from '$lib/mylib/utils/imageUtils';
 
 	export let value: FileInputValue;
 	export let disabled: boolean = false;

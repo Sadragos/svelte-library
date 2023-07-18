@@ -19,7 +19,9 @@
         </div>
     </div>
     {/if}
+    {#if label}
 	<label for={id} class={error ? 'text-danger' : ''}>{label}</label>
+    {/if}
 	{#if error}
 		<span transition:fade class="text-danger small p-1">{@html error}</span>
 	{/if}
