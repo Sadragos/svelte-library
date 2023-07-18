@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { DbStatus, type ImageField } from '$lib/mylib/data/MyDB';
-	import { compressAndResizeImage, getLocationFromImage } from '$lib/mylib/utils/imageUtils';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	
+	import {compressAndResizeImage, getLocationFromImage} from '@sadragos/svelte-tools/helper/imageUtils';
 
 	export let value: File | undefined = undefined;
 	export let disabled: boolean = false;
