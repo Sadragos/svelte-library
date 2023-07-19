@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { currentNavLink } from '$lib/mylib/stores/navigation.store';
-	import type { Link } from '$lib/mylib/types';
+	import { currentNavLink } from '@sadragos/svelte-tools/stores';
+	import type { Link } from '@sadragos/svelte-tools/helper/types';
 	import Icon from '../indicators/icon.svelte';
 	import Loader from '../indicators/loader.svelte';
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Readable, Writable } from 'svelte/store';
 	import NavLink from './navLink.svelte';
-	import { bottomMenuEntries, navExpanded, topMenuEntries } from '../../stores/navigation.store';
+	import { bottomMenuEntries, navExpanded, topMenuEntries } from '@sadragos/svelte-tools/stores';
 	import { PUBLIC_BUILD_TIME } from '$env/static/public';
-	import type { Link } from '../../types';
+	import type { Link } from '@sadragos/svelte-tools/helper/types';
 
 	export let expanded: Writable<boolean> = navExpanded;
 	export let topMenu: Readable<Link[]> = topMenuEntries;

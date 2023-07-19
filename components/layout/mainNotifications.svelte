@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { messages } from '$lib/mylib/stores/notification.store';
+	import { messages } from '@sadragos/svelte-tools/stores/notification.store';
 	import { fade } from 'svelte/transition';
 </script>
 

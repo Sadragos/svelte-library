@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { Link } from '$lib/mylib/types';
+	import type { Link } from '@sadragos/svelte-tools/helper/types';
 	import SmartButton from '../controls/smartButton.svelte';
 
 	export let link: Link;

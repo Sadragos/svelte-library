@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Link } from '$lib/mylib/types';
+	import type { Link } from '@sadragos/svelte-tools/helper/types';
 	import {
 		bottomMenuEntries,
 		breadcrumbEntries,
 		navButtons,
 		navExpanded,
 		topMenuEntries
-	} from '$lib/mylib/stores/navigation.store';
+	} from '@sadragos/svelte-tools/stores';
 	import { t } from 'svelte-i18n';
 	import type { Readable, Writable } from 'svelte/store';
 	import NavLink from './navLink.svelte';

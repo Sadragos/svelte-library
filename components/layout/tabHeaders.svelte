@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { currentNavLink } from '$lib/mylib/stores/navigation.store';
-	import type { Link } from '$lib/mylib/types';
+	import { currentNavLink } from '@sadragos/svelte-tools/stores';
+	import type { Link } from '@sadragos/svelte-tools/helper/types';
 
 	export let buttons: Link[];
 	export let secondary = false;
