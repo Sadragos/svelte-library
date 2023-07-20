@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { DATE_FORMAT } from '$lib/mylib/data/pocketUtils';
 	import { debounce } from 'lodash';
 	import type { MomentInput } from 'moment';
 	import moment from 'moment';
 	import { createEventDispatcher } from 'svelte';
 	import BasicInput, { type Validator } from './basicInput.svelte';
+	import { PB_DATE_FORMAT } from '@sadragos/svelte-tools';
 
 	export let value: MomentInput | undefined;
     export let disabled: boolean = false;
@@ -27,7 +27,7 @@
         dispatch('change', { value });
     }, debounceTime);
 
-    $: internalValue = value ? moment(value).utc(true).format(DATE_FORMAT) : undefined;
+    $: internalValue = value ? moment(value).utc(true).format(PB_DATE_FORMAT) : undefined;
 
 </script>
 
