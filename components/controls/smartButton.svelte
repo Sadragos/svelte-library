@@ -23,8 +23,7 @@
 	import { writable } from 'svelte/store';
 	import { Modal } from 'bootstrap';
 	import { t } from 'svelte-i18n';
-	import Loader from '../indicators/loader.svelte';
-	import Icon from '../indicators/icon.svelte';
+	import { Icon, Loader } from '@sadragos/svelte-tools';
 
 	export let containerClass: string | undefined = undefined;
 
@@ -129,9 +128,9 @@
 		{#if $isLoading}
 			<Loader />
 		{:else if $flashIcon}
-			<Icon icon={$flashIcon.icon} extraClass="{$flashIcon.animationClass} {$flashIcon.iconClasses}" />
+			<Icon icon={$flashIcon.icon}  />
 		{:else if icon}
-			<Icon icon={icon} extraClass={iconClass} />
+			<Icon icon={icon} />
 		{/if}
 		{#if text}
 			<span>{text}</span>
@@ -152,7 +151,7 @@
 					<div class="modal-body">
 						<div class="d-flex flex-row gap-3 align-items-center">
 							{#if dialogIcon}
-								<Icon icon={dialogIcon} extraClass={dialogIconClass} />
+								<Icon icon={dialogIcon} />
 							{/if}
 							{#if dialogText}
 								<span>{dialogText}</span>
